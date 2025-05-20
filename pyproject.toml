@@ -4,13 +4,18 @@ version = "0.1.0"
 authors = [
   { name="noobiezt0" },
 ]
+description = "aka 0xg"
 readme = "README.md"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
 license = "MIT"
-license-files = ["LICENSE"]
+license-files = ["LICEN[CS]E*"]
 
 [project.urls]
 Source = "https://github.com/noobiezt0/0xg"
+
+[build-system]
+requires = ["pillow", "setuptools"]
+build-backend = "setuptools.build_meta"
