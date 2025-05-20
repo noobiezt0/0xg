@@ -3,6 +3,11 @@
 aka 0xg
 
 
+## installation
+
+`pip install hexgraphics`
+
+
 ## usage
 
 ```
