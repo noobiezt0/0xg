@@ -1,0 +1,3 @@
+from codec import Codec0xg
+
+Image0xg = Codec0xg
