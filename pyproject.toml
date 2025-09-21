@@ -1,6 +1,6 @@
 [project]
 name = "hexgraphics"
-version = "0.2.5"
+version = "0.2.51"
 authors = [
   { name="noobiezt0" },
 ]
