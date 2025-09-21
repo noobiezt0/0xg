@@ -3,7 +3,7 @@ from typing import BinaryIO, IO
 from os import PathLike
 import zlib
 
-import constants
+import .constants
 
 class Codec0xg:
     def __init__(self, data: BinaryIO | bytes | bytearray) -> None:
