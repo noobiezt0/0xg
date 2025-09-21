@@ -1,32 +1,27 @@
 from PIL import Image
-from typing import BinaryIO, IO
+from typing import BinaryIO
 from os import PathLike
 import zlib
 
 from .constants import COLORMAP
 
-class Codec0xg:
+class Codec:
     def __init__(self, data: BinaryIO | bytes | bytearray) -> None:
         if isinstance(data, bytes | bytearray):
-            self.file = data
+            self.data = data
         else:
-            self.file = zlib.decompress(data.read())
+            self.data = zlib.decompress(data.read())
+        self.width = self.data[0]
+        self.height = self.data[1]
+        self.data = self.data[2:]
+        self.image = [self.data[i:i + self.width] for i in range(0, len(self.data), self.width)]
 
-        self.data = self.file.split(b'\x10')
-        self.w = len(self.data[0])
-        self.h = len(self.data)
+    def convert(self) -> Image:
+        image = Image.new('RGB', (self.width, self.height))
+        for y, r in enumerate(self.image):
+            for x, c in enumerate(r):
+                image.putpixel((x, y), COLORMAP[c])
+        return image
 
-    def save(self, fp):
-        with open(fp, 'wb') as file:
-            file.write(zlib.compress(b'\x10'.join(self.data)))
-
-    def convert(
-            self,
-            fp: str | bytes | PathLike[str] | PathLike[bytes] | IO[bytes]
-    ) -> None:
-        image = Image.new('RGB', (self.w, self.h))
-
-        for x in range(self.w):
-            for y in range(self.h):
-                image.putpixel((x, y), COLORMAP(self.data[y][x]))
-        image.save(fp)
+    def __bytes__(self):
+        return zlib.compress(bytes([self.width, self.height]) + self.data)
