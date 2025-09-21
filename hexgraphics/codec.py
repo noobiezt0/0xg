@@ -3,7 +3,7 @@ from typing import BinaryIO, IO
 from os import PathLike
 import zlib
 
-import .constants
+from .constants import colormap
 
 class Codec0xg:
     def __init__(self, data: BinaryIO | bytes | bytearray) -> None:
@@ -28,5 +28,5 @@ class Codec0xg:
 
         for x in range(self.w):
             for y in range(self.h):
-                image.putpixel((x, y), constants.COLORMAP(self.data[y][x]))
+                image.putpixel((x, y), COLORMAP(self.data[y][x]))
         image.save(fp)
