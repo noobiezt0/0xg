@@ -1,3 +1,1 @@
-from .codec import Codec
-
-Image0xg = Codec
+from .codec import Codec as Image0xg
