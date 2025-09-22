@@ -1,7 +1,11 @@
-from PIL import Image
 from typing import BinaryIO
-from os import PathLike
 import zlib
+try:
+    from PIL import Image
+except ImportError as Error:
+    Image = None
+    print(Error)
+    print('convert() function won\'t work.')
 
 from .constants import COLORMAP
 
@@ -18,6 +22,8 @@ class Codec:
         self.image = [self.data[i:i + self.width] for i in range(0, len(self.data), self.width)]
 
     def convert(self) -> Image:
+        if not Image:
+            raise ImportError('no PIL/pillow package, install with: pip install pillow')
         if self.mode == 0:
             image = Image.new('RGB', (self.width, self.height))
         else:
