@@ -16,11 +16,16 @@ class Codec:
         self.data = self.data[2:]
         self.image = [self.data[i:i + self.width] for i in range(0, len(self.data), self.width)]
 
-    def convert(self) -> Image:
-        image = Image.new('RGB', (self.width, self.height))
+    def convert(self, mode: int) -> Image:
+        if mode == 0:
+            image = Image.new('RGB', (self.width, self.height))
+        else:
+            image = Image.new('L', (self.width, self.height))
         for y, r in enumerate(self.image):
             for x, c in enumerate(r):
-                image.putpixel((x, y), COLORMAP[c])
+                if mode == 0: color = COLORMAP[c]
+                else: color = c
+                image.putpixel((x, y), color)
         return image
 
     def __bytes__(self):
